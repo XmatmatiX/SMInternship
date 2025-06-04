@@ -26,6 +26,7 @@ namespace SMInternship.Infrastructure.Repositories
 
             Product obj = _context.Products.Add(product).Entity;
 
+            _context.SaveChanges();
 
             return obj.ID;
         }
@@ -46,9 +47,17 @@ namespace SMInternship.Infrastructure.Repositories
 
         public IQueryable<Product> GetProductsByName(string productName)
         {
-            IQueryable<Product> products = _context.Products.Where(p => p.Name == productName);
+            IQueryable<Product> products = _context.Products
+                .Where(p => p.Name.ToLower().Contains(productName.ToLower()));
 
             return products;
+        }
+
+        public bool IsNameTaken(string name)
+        {
+            var result = _context.Products.Any(p => p.Name.ToLower() == name.ToLower());
+
+            return result;
         }
 
         public int UpdateProduct(Product product)

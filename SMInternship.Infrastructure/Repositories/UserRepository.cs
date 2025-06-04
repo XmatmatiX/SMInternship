@@ -28,7 +28,7 @@ namespace SMInternship.Infrastructure.Repositories
 
         public User GetUserByEmail(string email)
         {
-            User user = _context.Users.Where(u => u.Email == email).FirstOrDefault();
+            User user = _context.Users.Where(u => u.Email.ToLower() == email.ToLower()).FirstOrDefault();
 
             return user;
         }
@@ -40,7 +40,19 @@ namespace SMInternship.Infrastructure.Repositories
             return user;
         }
 
+        public bool IsEmailTaken(string email)
+        {
+            var result = _context.Users.Any(u => u.Email.ToLower() == email.ToLower());
 
+            return result;
+        }
+
+        public bool IsNicknameTaken(string nickname)
+        {
+            var result = _context.Users.Any(u => u.Nickname.ToLower() == nickname.ToLower());
+
+            return result;
+        }
 
         public User UpdateInfo(User user)
         {

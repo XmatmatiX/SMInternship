@@ -1,6 +1,0 @@
-@SMInternship.API_HostAddress = http://localhost:5160
-
-GET {{SMInternship.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

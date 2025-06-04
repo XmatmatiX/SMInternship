@@ -14,6 +14,7 @@ namespace SMInternship.Domain.Interfaces
         IQueryable<Product> GetProductsByName(string productName);
         IQueryable<Product> GetProducts();
 
+        bool IsNameTaken(string name);
         int UpdateProduct(Product product);
     }
 }

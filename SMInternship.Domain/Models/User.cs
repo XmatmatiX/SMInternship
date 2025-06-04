@@ -26,6 +26,6 @@ namespace SMInternship.Domain.Models
         public string Email { get; set; }
 
         [Phone(ErrorMessage = "Wrong phone number")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

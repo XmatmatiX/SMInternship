@@ -13,5 +13,7 @@ namespace SMInternship.Domain.Interfaces
         User GetUserByID(int ID);
         User AddUser(User user);
         User UpdateInfo(User user);
+        bool IsEmailTaken(string email);
+        bool IsNicknameTaken(string nickname);
     }
 }
