@@ -13,6 +13,10 @@ namespace SMInternship.Domain.Interfaces
         int UpdateNegotiation(Negotiation negotiation);
         Negotiation GetNegotiation(int id);
         Negotiation GetNegotiationByToken(string token);
+        IQueryable<Negotiation> GetNegotiations();
+        IQueryable<Negotiation> GetNegotiationsWithStatus(string status);
+
+        bool isTokenTaken(string Token);
 
     }
 }

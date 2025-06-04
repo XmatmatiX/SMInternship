@@ -17,6 +17,11 @@ namespace SMInternship.Infrastructure.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Add new product to database
+        /// </summary>
+        /// <param name="product">new product data</param>
+        /// <returns>ID of new product</returns>
         public int AddProduct(Product product)
         {
             if (product == null)
@@ -31,35 +36,62 @@ namespace SMInternship.Infrastructure.Repositories
             return obj.ID;
         }
 
+        /// <summary>
+        /// Get product with specified ID
+        /// </summary>
+        /// <param name="productId">ID of searched product</param>
+        /// <returns></returns>
         public Product GetProduct(int productId)
         {
             Product product = _context.Products.FirstOrDefault(p => p.ID == productId);
 
+            if (!product.IsActive)
+                return null;
+
             return product;
         }
 
+        /// <summary>
+        /// Returns list of products which weren't soft deleted
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Product> GetProducts()
         {
-            IQueryable<Product> products = _context.Products;
+            IQueryable<Product> products = _context.Products.Where(p => p.IsActive == true);
 
             return products;
         }
 
+        /// <summary>
+        /// Get products which contain specified string in name
+        /// </summary>
+        /// <param name="productName">Searching phrase</param>
+        /// <returns></returns>
         public IQueryable<Product> GetProductsByName(string productName)
         {
             IQueryable<Product> products = _context.Products
-                .Where(p => p.Name.ToLower().Contains(productName.ToLower()));
+                .Where(p => p.Name.ToLower().Contains(productName.ToLower()) && p.IsActive == true);
 
             return products;
         }
 
+        /// <summary>
+        /// Checking if name is already taken by existing product (not soft deleted)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool IsNameTaken(string name)
         {
-            var result = _context.Products.Any(p => p.Name.ToLower() == name.ToLower());
+            var result = _context.Products.Any(p => p.Name.ToLower() == name.ToLower() && p.IsActive == true);
 
             return result;
         }
 
+        /// <summary>
+        /// Updates data of product basing on ID
+        /// </summary>
+        /// <param name="product">New product data</param>
+        /// <returns>ID of product</returns>
         public int UpdateProduct(Product product)
         {
             _context.Attach(product);

@@ -19,6 +19,11 @@ namespace SMInternship.Application.Services
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// Add new product to database
+        /// </summary>
+        /// <param name="dto">New product data</param>
+        /// <returns>Product ID. -1 in case when name is already taken</returns>
         public int AddProduct(NewProductDTO dto)
         {
             if (_productRepository.IsNameTaken(dto.Name))
@@ -38,6 +43,12 @@ namespace SMInternship.Application.Services
             return result;
         }
 
+
+        /// <summary>
+        /// Get product with specified ID
+        /// </summary>
+        /// <param name="id">Product ID</param>
+        /// <returns>Product model. Null when product was not found</returns>
         public ProductDetailsDTO GetProduct(int id)
         {
             Product product = _productRepository.GetProduct(id);
@@ -54,6 +65,14 @@ namespace SMInternship.Application.Services
             return dto;
         }
 
+
+        /// <summary>
+        /// Get list of products with pagination and searching by name.
+        /// </summary>
+        /// <param name="page">Page number</param>
+        /// <param name="pageSize">Number of products on one page</param>
+        /// <param name="searchingName">Searching phrase</param>
+        /// <returns></returns>
         public ShowProductListDTO GetProductList(int page, int pageSize, string? searchingName)
         {
             IQueryable<Product> products;
@@ -87,6 +106,11 @@ namespace SMInternship.Application.Services
 
         }
 
+        /// <summary>
+        /// Update data about product
+        /// </summary>
+        /// <param name="dto">Product new data</param>
+        /// <returns></returns>
         public int UpdateProduct(ProductDetailsDTO dto)
         {
             if (_productRepository.IsNameTaken(dto.Name))

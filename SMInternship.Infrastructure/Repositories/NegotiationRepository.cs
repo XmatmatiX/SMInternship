@@ -17,6 +17,12 @@ namespace SMInternship.Infrastructure.Repositories
             _context = context;
         }
 
+
+        /// <summary>
+        /// Add negotiation to database
+        /// </summary>
+        /// <param name="negotiation"></param>
+        /// <returns>ID of created negotiation</returns>
         public int CreateNegotiation(Negotiation negotiation)
         {
             var neg = _context.Negotiations.Add(negotiation);
@@ -24,20 +30,77 @@ namespace SMInternship.Infrastructure.Repositories
             return neg.Entity.ID;
         }
 
+        /// <summary>
+        /// Return negotiation with given ID
+        /// </summary>
+        /// <param name="id">Negotiation ID</param>
+        /// <returns></returns>
         public Negotiation GetNegotiation(int id)
         {
             Negotiation negotiation = _context.Negotiations.Where(n => n.ID == id).FirstOrDefault();
 
+            // if negotiation is soft deleted return null
+            if (!negotiation.IsActive)
+                return null;
+
             return negotiation;
         }
 
+        /// <summary>
+        /// Return negotiation with given negotiation token
+        /// </summary>
+        /// <param name="token">Negotiation token given during creating negotiation</param>
+        /// <returns></returns>
         public Negotiation GetNegotiationByToken(string token)
         {
             Negotiation negotiation = _context.Negotiations.Where(n => n.NegotiationToken == token).FirstOrDefault();
 
+            if (!negotiation.IsActive)
+                return null;
+
             return negotiation;
         }
 
+        /// <summary>
+        /// Return all negotiations that is still active
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Negotiation> GetNegotiations()
+        {
+            IQueryable<Negotiation> negotiations = _context.Negotiations.Where(n=>n.IsActive == true);
+
+            return negotiations;
+        }
+
+        /// <summary>
+        /// Return negotiation with specified status
+        /// </summary>
+        /// <param name="status">Status of negotiation</param>
+        /// <returns></returns>
+        public IQueryable<Negotiation> GetNegotiationsWithStatus(string status)
+        {
+            IQueryable<Negotiation> negotiations = _context.Negotiations.Where(n => n.Status == status);
+
+            return negotiations;
+        }
+
+        /// <summary>
+        /// Check if negotiation token is used in any other place
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public bool isTokenTaken(string token)
+        {
+            bool result = _context.Negotiations.Any(n => n.NegotiationToken == token);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Update data about negotiation
+        /// </summary>
+        /// <param name="negotiation">New data</param>
+        /// <returns>Negotiation ID</returns>
         public int UpdateNegotiation(Negotiation negotiation)
         {
             _context.Attach(negotiation);
