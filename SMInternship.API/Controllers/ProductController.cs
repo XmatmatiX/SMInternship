@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SMInternship.Application.DTO;
 using SMInternship.Application.DTO.Products;
 using SMInternship.Application.Interfaces;
 
@@ -39,6 +38,9 @@ namespace SMInternship.API.Controllers
 
             var result = _productService.AddProduct(dto);
 
+            if (result == -2)
+                return BadRequest("This name is already taken.");
+
             if (result == -1)
                 return BadRequest("Something is wrong with sent object");
             return Ok(result);
@@ -60,7 +62,7 @@ namespace SMInternship.API.Controllers
         }
 
         [HttpGet("GetList")]
-        public IActionResult GetList([FromBody] SearchInfo info)
+        public IActionResult GetList([FromBody] ProductSearchInfo info)
         {
             if (info == null)
                 return BadRequest("Send info about page and size.");
@@ -68,10 +70,10 @@ namespace SMInternship.API.Controllers
             if (info.PageSize < 1 || info.Page < 1)
                 return BadRequest("Bad page size or number.");
 
-            var result = _productService.GetProductList(info.Page, info.PageSize, info.SearchingName);
+            var result = _productService.GetProductList(info);
 
             if (result.ProductList.Count == 0)
-                return BadRequest("There is no products on this page.");
+                return NotFound("There is no products on this page.");
 
             return Ok(result);
         }

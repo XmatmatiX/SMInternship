@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SMInternship.Domain.Models
+namespace SMInternship.Application.DTO.Negotiations
 {
-    public class Negotiation
+    public class NegotiationDetailsDTO
     {
         public int ID { get; set; }
-        public bool IsActive { get; set; }
         [Required]
         [Range(0.01, Double.MaxValue)]
         public double Price { get; set; }
@@ -19,7 +18,8 @@ namespace SMInternship.Domain.Models
         public string Status { get; set; }
         public string NegotiationToken { get; set; }
 
+        public string ProductName { get; set; }
         public int ProductID { get; set; }
-        public virtual Product Product { get; set; }
+
     }
 }

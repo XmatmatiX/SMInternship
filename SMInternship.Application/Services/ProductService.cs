@@ -28,7 +28,7 @@ namespace SMInternship.Application.Services
         {
             if (_productRepository.IsNameTaken(dto.Name))
             {
-                return -1;
+                return -2;
             }
 
             Product product = new Product()
@@ -73,30 +73,29 @@ namespace SMInternship.Application.Services
         /// <param name="pageSize">Number of products on one page</param>
         /// <param name="searchingName">Searching phrase</param>
         /// <returns></returns>
-        public ShowProductListDTO GetProductList(int page, int pageSize, string? searchingName)
+        public ProductListDTO GetProductList(ProductSearchInfo info)
         {
             IQueryable<Product> products;
-            ShowProductListDTO result = new ShowProductListDTO();
-            if (searchingName == null)
+            ProductListDTO result = new ProductListDTO();
+            if (info.SearchingName == null)
                 products = _productRepository.GetProducts();
             else
-                products = _productRepository.GetProductsByName(searchingName);
+                products = _productRepository.GetProductsByName(info.SearchingName);
 
-            result.ActualPage = page;
-            result.PageSize = pageSize;
-            result.SearchingName = searchingName;
+            result.ActualPage = info.Page;
+            result.PageSize = info.PageSize;
+            result.SearchingName = info.SearchingName;
             result.Count = products.Count();
-            result.Pages = 1 + ((result.Count - 1) / pageSize);
+            result.Pages = 1 + ((result.Count - 1) / info.PageSize);
 
-            var showProducts = products.Skip(pageSize * (page - 1)).Take(pageSize);
+            var showProducts = products.Skip(info.PageSize * (info.Page - 1)).Take(info.PageSize);
 
             foreach (var product in showProducts)
             {
-                ProductDetailsDTO prod = new ProductDetailsDTO()
+                ProductItemDTO prod = new ProductItemDTO()
                 {
                     ID = product.ID,
-                    Name = product.Name,
-                    Description = product.Description
+                    Name = product.Name
                 };
 
                 result.ProductList.Add(prod);

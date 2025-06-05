@@ -57,7 +57,7 @@ namespace SMInternship.Infrastructure.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("Negotiations");
+                    b.ToTable("Negotiations", (string)null);
                 });
 
             modelBuilder.Entity("SMInternship.Domain.Models.Product", b =>
@@ -80,7 +80,7 @@ namespace SMInternship.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("SMInternship.Domain.Models.User", b =>
@@ -112,7 +112,7 @@ namespace SMInternship.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("SMInternship.Domain.Models.Negotiation", b =>

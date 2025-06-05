@@ -45,6 +45,9 @@ namespace SMInternship.Infrastructure.Repositories
         {
             Product product = _context.Products.FirstOrDefault(p => p.ID == productId);
 
+            if (product == null)
+                return null;
+
             if (!product.IsActive)
                 return null;
 
@@ -70,7 +73,7 @@ namespace SMInternship.Infrastructure.Repositories
         public IQueryable<Product> GetProductsByName(string productName)
         {
             IQueryable<Product> products = _context.Products
-                .Where(p => p.Name.ToLower().Contains(productName.ToLower()) && p.IsActive == true);
+                .Where(p => p.Name.Contains(productName) && p.IsActive == true);
 
             return products;
         }
@@ -82,7 +85,7 @@ namespace SMInternship.Infrastructure.Repositories
         /// <returns></returns>
         public bool IsNameTaken(string name)
         {
-            var result = _context.Products.Any(p => p.Name.ToLower() == name.ToLower() && p.IsActive == true);
+            var result = _context.Products.Any(p => p.Name == name && p.IsActive == true);
 
             return result;
         }

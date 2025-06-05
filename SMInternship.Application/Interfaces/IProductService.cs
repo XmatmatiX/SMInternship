@@ -10,7 +10,7 @@ namespace SMInternship.Application.Interfaces
     public interface IProductService
     {
         ProductDetailsDTO GetProduct(int id);
-        ShowProductListDTO GetProductList(int page, int pageSize, string? searchingName);
+        ProductListDTO GetProductList(ProductSearchInfo info);
         int AddProduct(NewProductDTO dto);
         int UpdateProduct(ProductDetailsDTO dto);
     }

@@ -23,7 +23,7 @@ namespace SMInternship.Infrastructure.Repositories
         /// </summary>
         /// <param name="negotiation"></param>
         /// <returns>ID of created negotiation</returns>
-        public int CreateNegotiation(Negotiation negotiation)
+        public int AddNegotiation(Negotiation negotiation)
         {
             var neg = _context.Negotiations.Add(negotiation);
             _context.SaveChanges();
@@ -38,6 +38,9 @@ namespace SMInternship.Infrastructure.Repositories
         public Negotiation GetNegotiation(int id)
         {
             Negotiation negotiation = _context.Negotiations.Where(n => n.ID == id).FirstOrDefault();
+
+            if (negotiation == null)
+                return null;
 
             // if negotiation is soft deleted return null
             if (!negotiation.IsActive)
@@ -54,6 +57,9 @@ namespace SMInternship.Infrastructure.Repositories
         public Negotiation GetNegotiationByToken(string token)
         {
             Negotiation negotiation = _context.Negotiations.Where(n => n.NegotiationToken == token).FirstOrDefault();
+
+            if (negotiation == null)
+                return null;
 
             if (!negotiation.IsActive)
                 return null;
@@ -114,5 +120,6 @@ namespace SMInternship.Infrastructure.Repositories
             return negotiation.ID;
 
         }
+
     }
 }

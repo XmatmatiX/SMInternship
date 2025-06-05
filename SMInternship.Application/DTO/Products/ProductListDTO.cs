@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SMInternship.Application.DTO.Products
 {
-    public class ShowProductListDTO
+    public class ProductListDTO
     {
-        public List<ProductDetailsDTO> ProductList { get; set; }
+        public List<ProductItemDTO> ProductList { get; set; }
         public int Count { get; set; }
         public string? SearchingName { get; set; }
 
@@ -17,9 +17,9 @@ namespace SMInternship.Application.DTO.Products
         public int PageSize { get; set; }
 
 
-        public ShowProductListDTO()
+        public ProductListDTO()
         {
-            ProductList = new List<ProductDetailsDTO>();
+            ProductList = new List<ProductItemDTO>();
         }
     }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SMInternship.Application.DTO.Products
 {
-    public class NewProductDTO
+    public class ProductItemDTO
     {
+        public int ID { get; set; }
         [Required]
         public string Name { get; set; }
-        public string? Description { get; set; }
     }
 }

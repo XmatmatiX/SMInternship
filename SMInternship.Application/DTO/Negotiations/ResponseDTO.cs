@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SMInternship.Application.DTO.Products
+namespace SMInternship.Application.DTO.Negotiations
 {
-    public class ProductDetailsDTO
+    public class ResponseDTO
     {
         public int ID { get; set; }
-        [Required]
-        public string Name { get; set; }
-        public string? Description { get; set; }
+        public string Status { get; set; }
     }
 }
