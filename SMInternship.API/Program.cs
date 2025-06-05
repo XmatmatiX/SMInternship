@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SMInternship.Application.Interfaces;
 using SMInternship.Application.Services;
 using SMInternship.Domain.Interfaces;
 using SMInternship.Infrastructure;
 using SMInternship.Infrastructure.Repositories;
+using System.Text;
 
 namespace SMInternship.API
 {
@@ -22,6 +25,22 @@ namespace SMInternship.API
                     builder.Configuration.GetConnectionString("DefaultConnection")
                     )
                 );
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration.GetValue<string>("JwtSettings:Issuer"),
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration.GetValue<string>("JwtSettings:Audience"),
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JwtSettings:Token")))
+                    };
+                });
 
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IProductRepository, ProductRepository>();

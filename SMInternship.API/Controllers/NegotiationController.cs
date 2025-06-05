@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMInternship.Application.DTO.Negotiations;
 using SMInternship.Application.Interfaces;
@@ -31,6 +32,7 @@ namespace SMInternship.API.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("Get/{id}")]
         public IActionResult Get(int id)
         {
@@ -57,6 +59,7 @@ namespace SMInternship.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("GetList")]
         public IActionResult GetList([FromBody]NegotiationSearchInfo info)
         {
@@ -75,6 +78,7 @@ namespace SMInternship.API.Controllers
 
         }
 
+        [Authorize]
         [HttpPut("ResponseToOffer")]
         public IActionResult ResponseToOffer([FromBody]ResponseDTO dto)
         {

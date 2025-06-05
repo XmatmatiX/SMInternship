@@ -10,6 +10,7 @@ namespace SMInternship.Domain.Interfaces
     public interface IUserRepository
     {
         User GetUserByEmail(string email);
+        User GetUserByNickname(string nickname);
         User GetUserByID(int ID);
         User AddUser(User user);
         User UpdateInfo(User user);

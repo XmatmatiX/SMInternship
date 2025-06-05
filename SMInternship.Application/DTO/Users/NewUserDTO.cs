@@ -5,19 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SMInternship.Domain.Models
+namespace SMInternship.Application.DTO.Users
 {
-    public class User
+    public class NewUserDTO
     {
-        [Key]
-        public int ID { get; set; }
-        public bool IsActive { get; set; }
-
         [Required]
         public string Nickname { get; set; }
 
         [Required]
-        [MaxLength(500)]
+        [MinLength(6, ErrorMessage = "Password too short. Min 6 letters")]
+        [MaxLength(18, ErrorMessage = "Password too long. Max 6 letters")]
         public string Password { get; set; }
 
         [Required]

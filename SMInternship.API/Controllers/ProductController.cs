@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMInternship.Application.DTO.Products;
 using SMInternship.Application.Interfaces;
@@ -30,6 +31,7 @@ namespace SMInternship.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("Add")]
         public IActionResult Add([FromBody]NewProductDTO? dto)
         {
@@ -46,6 +48,7 @@ namespace SMInternship.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public IActionResult Update([FromBody]ProductDetailsDTO dto)
         {

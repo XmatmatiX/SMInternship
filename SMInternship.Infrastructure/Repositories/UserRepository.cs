@@ -40,6 +40,13 @@ namespace SMInternship.Infrastructure.Repositories
             return user;
         }
 
+        public User GetUserByNickname(string nickname)
+        {
+            User user = _context.Users.Where(u => u.Nickname == nickname).FirstOrDefault();
+
+            return user;
+        }
+
         public bool IsEmailTaken(string email)
         {
             var result = _context.Users.Any(u => u.Email.ToLower() == email.ToLower());
