@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Scalar.AspNetCore;
 using SMInternship.Application.Interfaces;
 using SMInternship.Application.Services;
 using SMInternship.Domain.Interfaces;
@@ -19,6 +21,8 @@ namespace SMInternship.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddOpenApi();
 
             builder.Services.AddDbContext<Context>(
                 opt => opt.UseSqlServer(
@@ -55,6 +59,11 @@ namespace SMInternship.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference();
+            }
 
             app.UseHttpsRedirection();
 
