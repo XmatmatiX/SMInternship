@@ -16,7 +16,7 @@ namespace SMInternship.Domain.Models
         public double Price { get; set; }
         public int AttempCounter { get; set; }
         public DateTime LastAttemp { get; set; }
-        public string Status { get; set; }
+        public NegotiationStatus Status { get; set; }
         public string NegotiationToken { get; set; }
 
         public int ProductID { get; set; }

@@ -50,6 +50,8 @@ namespace SMInternship.API
             builder.Services.AddTransient<IProductService, ProductService>();
             builder.Services.AddTransient<INegotiationService, NegotiationService>();
 
+            builder.Services.AddHostedService<ExpirationService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

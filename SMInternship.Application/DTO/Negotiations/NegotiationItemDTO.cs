@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SMInternship.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace SMInternship.Application.DTO.Negotiations
     {
         public int ID { get; set; }
         public DateTime LastAttemp { get; set; }
-        public string Status { get; set; }
+        public NegotiationStatus Status { get; set; }
         
 
         public string ProductName { get; set; }

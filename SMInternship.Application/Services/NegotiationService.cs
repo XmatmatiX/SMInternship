@@ -41,7 +41,7 @@ namespace SMInternship.Application.Services
                 LastAttemp = DateTime.UtcNow,
                 Price = dto.Price,
                 ProductID = dto.ProductID,
-                Status = "Pending",
+                Status = NegotiationStatus.Pending,
                 NegotiationToken = token
             };
 
@@ -109,7 +109,7 @@ namespace SMInternship.Application.Services
             }
             else
             {
-                negotiations = _negotiationRepository.GetNegotiationsWithStatus(info.SearchingStatus);
+                negotiations = _negotiationRepository.GetNegotiationsWithStatus(info.SearchingStatus.Value);
             }
 
             if (info.SearchingProduct != null)
@@ -154,13 +154,13 @@ namespace SMInternship.Application.Services
             
             if (negotiation == null)
                 return -1;
-            else if (negotiation.Status.ToLower() != "pending")
+            else if (negotiation.Status != NegotiationStatus.Pending)
                 return -2;
 
             negotiation.LastAttemp = DateTime.UtcNow;
             negotiation.AttempCounter++;
             if (negotiation.AttempCounter > 3)
-                negotiation.Status = "Canceled";
+                negotiation.Status = NegotiationStatus.Canceled;
             else
                 negotiation.Status = dto.Status;
 
@@ -176,14 +176,14 @@ namespace SMInternship.Application.Services
 
             if (negotiation == null)
                 return -1;
-            else if (negotiation.Status.ToLower() != "rejected")
+            else if (negotiation.Status != NegotiationStatus.Rejected)
                 return -2;
             else if (negotiation.Price <= 0.0)
                 return -3;
 
             negotiation.LastAttemp = DateTime.UtcNow;
             negotiation.Price = dto.Price;
-            negotiation.Status = "Pending";
+            negotiation.Status = NegotiationStatus.Pending;
 
             _negotiationRepository.UpdateNegotiation(negotiation);
             return negotiation.ID;

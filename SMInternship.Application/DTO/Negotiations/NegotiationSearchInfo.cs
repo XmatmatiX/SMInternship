@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SMInternship.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SMInternship.Application.DTO.Negotiations
 {
     public class NegotiationSearchInfo
     {
-        public string? SearchingStatus { get; set; }
+        public NegotiationStatus? SearchingStatus { get; set; }
         public string? SearchingProduct { get; set; }
 
 

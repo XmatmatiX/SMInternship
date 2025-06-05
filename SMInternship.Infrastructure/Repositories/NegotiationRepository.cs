@@ -83,7 +83,7 @@ namespace SMInternship.Infrastructure.Repositories
         /// </summary>
         /// <param name="status">Status of negotiation</param>
         /// <returns></returns>
-        public IQueryable<Negotiation> GetNegotiationsWithStatus(string status)
+        public IQueryable<Negotiation> GetNegotiationsWithStatus(NegotiationStatus status)
         {
             IQueryable<Negotiation> negotiations = _context.Negotiations.Where(n => n.Status == status);
 

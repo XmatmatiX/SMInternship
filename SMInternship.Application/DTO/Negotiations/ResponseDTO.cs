@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SMInternship.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace SMInternship.Application.DTO.Negotiations
     public class ResponseDTO
     {
         public int ID { get; set; }
-        public string Status { get; set; }
+        public NegotiationStatus Status { get; set; }
     }
 }
