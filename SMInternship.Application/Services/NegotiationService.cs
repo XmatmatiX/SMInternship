@@ -21,6 +21,11 @@ namespace SMInternship.Application.Services
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// Create new negotiation about specified product
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Negotiation token used by customert to check negotiation status</returns>
         public string AddNegotiation(NewNegotiationDTO dto)
         {
             if (dto.Price <= 0.0)
@@ -50,6 +55,11 @@ namespace SMInternship.Application.Services
             return token;
         }
 
+        /// <summary>
+        /// Get details about negotiation with specified ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Details about negotiation</returns>
         public NegotiationDetailsDTO GetNegotiationDetails(int id)
         {
             var negotiation = _negotiationRepository.GetNegotiation(id);
@@ -74,6 +84,11 @@ namespace SMInternship.Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Get details about negotiation with specified negotiation token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>Details about negotiation</returns>
         public NegotiationDetailsDTO GetNegotiationDetails(string token)
         {
             var negotiation = _negotiationRepository.GetNegotiationByToken(token);
@@ -98,6 +113,11 @@ namespace SMInternship.Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Get list of negotiation including pagination and searching options
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns>List of negotiation with searching options</returns>
         public NegotiationListDTO GetNegotiations(NegotiationSearchInfo info)
         {
             IQueryable<Negotiation> negotiations;
@@ -148,6 +168,11 @@ namespace SMInternship.Application.Services
 
         }
 
+        /// <summary>
+        /// Make response to client offer
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Negotiation ID</returns>
         public int ResponseToOffer(ResponseDTO dto)
         {
             var negotiation = _negotiationRepository.GetNegotiation(dto.ID);
@@ -170,6 +195,11 @@ namespace SMInternship.Application.Services
 
         }
 
+        /// <summary>
+        /// Send new offer to employee
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Negotiation ID</returns>
         public int SendNewOffer(NewOfferDTO dto)
         {
             var negotiation = _negotiationRepository.GetNegotiationByToken(dto.Token);
@@ -190,6 +220,10 @@ namespace SMInternship.Application.Services
         }
 
 
+        /// <summary>
+        /// Creating token for negotiation that will be used by clients
+        /// </summary>
+        /// <returns></returns>
         private string createToken()
         {
             Random random = new Random();

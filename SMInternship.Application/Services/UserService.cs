@@ -20,6 +20,12 @@ namespace SMInternship.Application.Services
             _userRepository = userRepository;
         }
 
+
+        /// <summary>
+        /// Login to account with email and password
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>If data is correct it returns user from database</returns>
         public User Login(LoginDTO dto)
         {
             var user = _userRepository.GetUserByEmail(dto.Email);
@@ -36,6 +42,11 @@ namespace SMInternship.Application.Services
 
         }
 
+        /// <summary>
+        /// Create new account 
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>New user data</returns>
         public User Register(RegisterDTO dto)
         {
             if (_userRepository.IsEmailTaken(dto.Email))

@@ -19,6 +19,11 @@ namespace SMInternship.Application.Services
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Loop that will check expiration of negotiations everyday at 2.00 AM
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -31,20 +36,22 @@ namespace SMInternship.Application.Services
                 var delay = nextRun - now;
                 await Task.Delay(delay, stoppingToken);
 
-                // Po opóźnieniu – wykonaj zadanie
                 await ExpireOldNegotiationsAsync();
             }
         }
 
+        /// <summary>
+        /// Searching for expired negotiations and changing their status
+        /// </summary>
+        /// <returns></returns>
         private async Task ExpireOldNegotiationsAsync()
         {
-            Console.WriteLine("testowanie");
             using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
 
             var now = DateTime.UtcNow;
             var expiredNegotiations = dbContext.Negotiations
-                .Where(n => n.Status == NegotiationStatus.Rejected&& n.LastAttemp.AddSeconds(7) < now)
+                .Where(n => n.Status == NegotiationStatus.Rejected&& n.LastAttemp.AddDays(7) < now)
                 .ToList();
 
             foreach (var negotiation in expiredNegotiations)

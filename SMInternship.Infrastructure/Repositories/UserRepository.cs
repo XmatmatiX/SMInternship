@@ -17,6 +17,12 @@ namespace SMInternship.Infrastructure.Repositories
             _context = context;
         }
 
+
+        /// <summary>
+        /// Add new user to databasse
+        /// </summary>
+        /// <param name="user">New user data</param>
+        /// <returns></returns>
         public User AddUser(User user)
         {
             var us = _context.Users.Add(user);
@@ -26,6 +32,12 @@ namespace SMInternship.Infrastructure.Repositories
             return us.Entity;
         }
 
+
+        /// <summary>
+        /// Find user with specified email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public User GetUserByEmail(string email)
         {
             User user = _context.Users.Where(u => u.Email.ToLower() == email.ToLower()).FirstOrDefault();
@@ -33,6 +45,12 @@ namespace SMInternship.Infrastructure.Repositories
             return user;
         }
 
+
+        /// <summary>
+        /// Find user with specified ID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public User GetUserByID(int ID)
         {
             User user = _context.Users.Where(u => u.ID == ID).FirstOrDefault();
@@ -40,6 +58,12 @@ namespace SMInternship.Infrastructure.Repositories
             return user;
         }
 
+
+        /// <summary>
+        /// Find user with specified nickname
+        /// </summary>
+        /// <param name="nickname"></param>
+        /// <returns></returns>
         public User GetUserByNickname(string nickname)
         {
             User user = _context.Users.Where(u => u.Nickname == nickname).FirstOrDefault();
@@ -47,6 +71,12 @@ namespace SMInternship.Infrastructure.Repositories
             return user;
         }
 
+
+        /// <summary>
+        /// Check if email is already taken.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool IsEmailTaken(string email)
         {
             var result = _context.Users.Any(u => u.Email.ToLower() == email.ToLower());
@@ -54,6 +84,12 @@ namespace SMInternship.Infrastructure.Repositories
             return result;
         }
 
+
+        /// <summary>
+        /// Check if nickname is already taken.
+        /// </summary>
+        /// <param name="nickname"></param>
+        /// <returns></returns>
         public bool IsNicknameTaken(string nickname)
         {
             var result = _context.Users.Any(u => u.Nickname.ToLower() == nickname.ToLower());
@@ -61,6 +97,12 @@ namespace SMInternship.Infrastructure.Repositories
             return result;
         }
 
+
+        /// <summary>
+        /// Update data about user basing od ID
+        /// </summary>
+        /// <param name="user">New user data</param>
+        /// <returns></returns>
         public User UpdateInfo(User user)
         {
             _context.Attach(user);
