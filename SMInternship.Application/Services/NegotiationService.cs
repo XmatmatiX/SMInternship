@@ -28,11 +28,14 @@ namespace SMInternship.Application.Services
         /// <returns>Negotiation token used by customert to check negotiation status</returns>
         public string AddNegotiation(NewNegotiationDTO dto)
         {
+            if (dto == null)
+                return "No data sent.";
             if (dto.Price <= 0.0)
                 return "Bad price.";
 
             if (_productRepository.GetProduct(dto.ProductID) == null)
                 return "Product doesn't exist.";
+            
             string token = string.Empty;
             do
             {
@@ -62,6 +65,9 @@ namespace SMInternship.Application.Services
         /// <returns>Details about negotiation</returns>
         public NegotiationDetailsDTO GetNegotiationDetails(int id)
         {
+            if (id <= 0)
+                return null;
+
             var negotiation = _negotiationRepository.GetNegotiation(id);
 
             if (negotiation == null)
@@ -91,6 +97,9 @@ namespace SMInternship.Application.Services
         /// <returns>Details about negotiation</returns>
         public NegotiationDetailsDTO GetNegotiationDetails(string token)
         {
+            if (token == null || token == "")
+                return null;
+
             var negotiation = _negotiationRepository.GetNegotiationByToken(token);
 
             if (negotiation == null)
@@ -120,6 +129,12 @@ namespace SMInternship.Application.Services
         /// <returns>List of negotiation with searching options</returns>
         public NegotiationListDTO GetNegotiations(NegotiationSearchInfo info)
         {
+            if (info == null)
+                return null;
+            
+            if (info.Page < 1 || info.PageSize < 1)
+                return null;
+
             IQueryable<Negotiation> negotiations;
             NegotiationListDTO result = new NegotiationListDTO();
 
@@ -134,13 +149,13 @@ namespace SMInternship.Application.Services
 
             if (info.SearchingProduct != null)
             {
+                var test = negotiations.ToList();
                 List<int> productIDs = _productRepository.GetProductsByName(info.SearchingProduct)
                     .Select(p => p.ID)
                     .ToList();
 
                 negotiations = negotiations.Where(n => productIDs.Contains(n.ProductID));
             }
-
             result.SearchingStatus = info.SearchingStatus;
             result.SearchingProduct = info.SearchingProduct;
             result.ActualPage = info.Page;
@@ -175,12 +190,18 @@ namespace SMInternship.Application.Services
         /// <returns>Negotiation ID</returns>
         public int ResponseToOffer(ResponseDTO dto)
         {
+            if (dto == null)
+                return -1;
+
+            if (dto.ID <= 0)
+                return -2;
+
             var negotiation = _negotiationRepository.GetNegotiation(dto.ID);
             
             if (negotiation == null)
-                return -1;
+                return -3;
             else if (negotiation.Status != NegotiationStatus.Pending)
-                return -2;
+                return -4;
 
             negotiation.LastAttemp = DateTime.UtcNow;
             negotiation.AttempCounter++;
@@ -202,14 +223,21 @@ namespace SMInternship.Application.Services
         /// <returns>Negotiation ID</returns>
         public int SendNewOffer(NewOfferDTO dto)
         {
+            if (dto == null)
+                return -1;
+
+            if (dto.Token == null || dto.Token == "")
+                return -2;
+            if (dto.Price <= 0.0)
+                return -3;
+
             var negotiation = _negotiationRepository.GetNegotiationByToken(dto.Token);
 
             if (negotiation == null)
-                return -1;
+                return -4;
             else if (negotiation.Status != NegotiationStatus.Rejected)
-                return -2;
-            else if (negotiation.Price <= 0.0)
-                return -3;
+                return -5;
+
 
             negotiation.LastAttemp = DateTime.UtcNow;
             negotiation.Price = dto.Price;

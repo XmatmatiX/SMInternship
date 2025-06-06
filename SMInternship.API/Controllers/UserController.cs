@@ -27,9 +27,6 @@ namespace SMInternship.API.Controllers
         [HttpPost("Login")]
         public IActionResult Login([FromBody]LoginDTO dto)
         {
-            if (dto == null)
-                return BadRequest("There is no login data.");
-
             var user = _userService.Login(dto);
 
             if (user == null)
@@ -43,9 +40,6 @@ namespace SMInternship.API.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody]RegisterDTO dto)
         {
-            if (dto == null)
-                return BadRequest("There is no register data.");
-
             var user = _userService.Register(dto);
 
             if (user == null)

@@ -20,9 +20,6 @@ namespace SMInternship.API.Controllers
         [HttpGet("Get/{id}")]
         public IActionResult Get(int id)
         {
-            if (id < 0)
-                return BadRequest("ID cannot be lower than 0.");
-
             var result = _productService.GetProduct(id);
 
             if (result == null)
@@ -35,10 +32,10 @@ namespace SMInternship.API.Controllers
         [HttpPost("Add")]
         public IActionResult Add([FromBody]NewProductDTO? dto)
         {
-            if (dto == null)
-                return BadRequest("Sent object is empty.");
-
             var result = _productService.AddProduct(dto);
+
+            if (result == -3)
+                return BadRequest("No data has been sent.");
 
             if (result == -2)
                 return BadRequest("This name is already taken.");
@@ -52,10 +49,11 @@ namespace SMInternship.API.Controllers
         [HttpPut("Update")]
         public IActionResult Update([FromBody]ProductDetailsDTO dto)
         {
-            if (dto == null)
-                return BadRequest("Sent object is empty.");
 
             var result = _productService.UpdateProduct(dto);
+
+            if (result == -2)
+                return BadRequest("No data has been sent.");
 
             if (result == -1)
                 return BadRequest("This name is already taken.");
@@ -67,13 +65,10 @@ namespace SMInternship.API.Controllers
         [HttpGet("GetList")]
         public IActionResult GetList([FromBody] ProductSearchInfo info)
         {
-            if (info == null)
-                return BadRequest("Send info about page and size.");
-
-            if (info.PageSize < 1 || info.Page < 1)
-                return BadRequest("Bad page size or number.");
-
             var result = _productService.GetProductList(info);
+
+            if (result == null)
+                return BadRequest("Bad page size or number.");
 
             if (result.ProductList.Count == 0)
                 return NotFound("There is no products on this page.");

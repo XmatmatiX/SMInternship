@@ -28,6 +28,9 @@ namespace SMInternship.Application.Services
         /// <returns>If data is correct it returns user from database</returns>
         public User Login(LoginDTO dto)
         {
+            if (dto == null)
+                return null;
+
             var user = _userRepository.GetUserByEmail(dto.Email);
 
             if (user == null)
@@ -37,6 +40,8 @@ namespace SMInternship.Application.Services
 
             if (isPasswordCorrect == PasswordVerificationResult.Failed)
                 return null;
+
+            user.Password = "";
 
             return user;
 
@@ -49,6 +54,8 @@ namespace SMInternship.Application.Services
         /// <returns>New user data</returns>
         public User Register(RegisterDTO dto)
         {
+            if (dto == null)
+                return null;
             if (_userRepository.IsEmailTaken(dto.Email))
                 return null;
             if (_userRepository.IsNicknameTaken(dto.Nickname))

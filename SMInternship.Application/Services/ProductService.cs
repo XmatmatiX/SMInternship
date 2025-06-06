@@ -23,12 +23,15 @@ namespace SMInternship.Application.Services
         /// Add new product to database
         /// </summary>
         /// <param name="dto">New product data</param>
-        /// <returns>Product ID. -1 in case when name is already taken</returns>
+        /// <returns>Product ID. Returns number below 0 in case of some error</returns>
         public int AddProduct(NewProductDTO dto)
         {
+            if (dto == null)
+                return -2;
+
             if (_productRepository.IsNameTaken(dto.Name))
             {
-                return -2;
+                return -3;
             }
 
             Product product = new Product()
@@ -51,6 +54,9 @@ namespace SMInternship.Application.Services
         /// <returns>Product model. Null when product was not found</returns>
         public ProductDetailsDTO GetProduct(int id)
         {
+            if (id <= 0)
+                return null;
+
             Product product = _productRepository.GetProduct(id);
             
             if (product == null)
@@ -75,9 +81,15 @@ namespace SMInternship.Application.Services
         /// <returns></returns>
         public ProductListDTO GetProductList(ProductSearchInfo info)
         {
+            if (info == null)
+                return null;
+
+            if (info.Page < 1 || info.PageSize < 1)
+                return null;
+
             IQueryable<Product> products;
             ProductListDTO result = new ProductListDTO();
-            if (info.SearchingName == null)
+            if (info.SearchingName == null || info.SearchingName == "")
                 products = _productRepository.GetProducts();
             else
                 products = _productRepository.GetProductsByName(info.SearchingName);
@@ -112,6 +124,9 @@ namespace SMInternship.Application.Services
         /// <returns></returns>
         public int UpdateProduct(ProductDetailsDTO dto)
         {
+            if(dto == null) 
+                return -2;
+
             if (_productRepository.IsNameTaken(dto.Name))
             {
                 return -1;

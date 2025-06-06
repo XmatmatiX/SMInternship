@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36127.28 d17.14
+VisualStudioVersion = 17.14.36127.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMInternship.Domain", "SMInternship.Domain\SMInternship.Domain.csproj", "{912C0DEF-7698-4D40-80B4-18C896043E3D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMInternship.Infrastructure", "SMInternship.Infrastructure\SMInternship.Infrastructure.csproj", "{85AB6F9D-537D-4118-B973-9B63C62FFF80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMInternship.API", "SMInternship.API\SMInternship.API.csproj", "{007AA6D7-874C-4177-84A9-8872C8B83D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMInternship.Tests", "SMInternship.Tests\SMInternship.Tests.csproj", "{10613A7F-BB44-4B7A-8FE2-DDAD8C3FA6AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{007AA6D7-874C-4177-84A9-8872C8B83D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{007AA6D7-874C-4177-84A9-8872C8B83D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{007AA6D7-874C-4177-84A9-8872C8B83D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10613A7F-BB44-4B7A-8FE2-DDAD8C3FA6AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10613A7F-BB44-4B7A-8FE2-DDAD8C3FA6AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10613A7F-BB44-4B7A-8FE2-DDAD8C3FA6AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10613A7F-BB44-4B7A-8FE2-DDAD8C3FA6AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

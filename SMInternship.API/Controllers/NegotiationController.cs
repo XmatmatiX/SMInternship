@@ -20,9 +20,6 @@ namespace SMInternship.API.Controllers
         [HttpPost("Add")]
         public IActionResult Add([FromBody]NewNegotiationDTO dto)
         {
-            if (dto == null)
-                return BadRequest("No data was sent.");
-
             string result = _negotiationService.AddNegotiation(dto);
 
             if (result.EndsWith('.'))
@@ -36,9 +33,6 @@ namespace SMInternship.API.Controllers
         [HttpGet("Get/{id}")]
         public IActionResult Get(int id)
         {
-            if (id < 0)
-                return BadRequest("ID cannot be lower than 0.");
-
             var result = _negotiationService.GetNegotiationDetails(id);
 
             if (result == null)
@@ -49,9 +43,6 @@ namespace SMInternship.API.Controllers
         [HttpGet("GetByToken/{token}")]
         public IActionResult GetByToken(string token)
         {
-            if (token == null)
-                return BadRequest("There is no token in request.");
-
             var result = _negotiationService.GetNegotiationDetails(token);
 
             if (result == null)
@@ -63,14 +54,10 @@ namespace SMInternship.API.Controllers
         [HttpGet("GetList")]
         public IActionResult GetList([FromBody]NegotiationSearchInfo info)
         {
-            if (info == null)
-                return BadRequest("Send info about page and size.");
-
-            if (info.PageSize < 1 || info.Page < 1)
-                return BadRequest("Bad page size or number.");
-
             var result = _negotiationService.GetNegotiations(info);
 
+            if (result == null)
+                return BadRequest("Send correct info about page and size.");
             if (result.NegotiationList.Count == 0)
                 return NotFound("There is no products on this page.");
 
@@ -82,41 +69,41 @@ namespace SMInternship.API.Controllers
         [HttpPut("ResponseToOffer")]
         public IActionResult ResponseToOffer([FromBody]ResponseDTO dto)
         {
-            if (dto == null)
-                return BadRequest("Send response to offer.");
-
-            if (dto.ID < 0)
-                return BadRequest("ID cannot be lower than 0");
 
             var result = _negotiationService.ResponseToOffer(dto);
 
-            if (result == -1)
-                return NotFound($"There is no negotiation with ID: {dto.ID}");
-            else if (result == -2)
-                return BadRequest("Already responsed to this negotiation.");
-
-            return Ok(result);
+            switch (result)
+            {
+                case -1:
+                    return BadRequest("Send response to offer.");
+                case -2:
+                    return BadRequest("ID cannot be lower than 1");
+                case -3:
+                    return NotFound($"There is no negotiation with ID: {dto.ID}");
+                case -4:
+                    return BadRequest("Already responsed to this negotiation.");
+                default:
+                    return Ok(result);
+            }    
         }
 
         [HttpPut("NewOffer")]
         public IActionResult NewOffer([FromBody]NewOfferDTO dto)
         {
-            if(dto == null)
-                return BadRequest("Send response to offer.");
-
-            if(dto.Token == null)
-                return BadRequest("Token cannot be null.");
-
             var result = _negotiationService.SendNewOffer(dto);
 
             switch (result)
             {
                 case -1:
-                    return NotFound($"There is no negotiation with token: {dto.Token}.");
+                    return BadRequest("Send response to offer.");
                 case -2:
-                    return BadRequest("Negotiation has not been rejected yet.");
+                    return BadRequest("Token cannot be empty.");
                 case -3:
                     return BadRequest("Price cannot be lower than 0.0.");
+                case -4:
+                    return NotFound($"There is no negotiation with token: {dto.Token}.");
+                case -5:
+                    return BadRequest("Negotiation has not been rejected yet.");
                 default:
                     return Ok(result);
             }
