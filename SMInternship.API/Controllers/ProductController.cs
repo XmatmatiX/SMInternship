@@ -62,7 +62,7 @@ namespace SMInternship.API.Controllers
 
         }
 
-        [HttpGet("GetList")]
+        [HttpPost("GetList")]
         public IActionResult GetList([FromBody] ProductSearchInfo info)
         {
             var result = _productService.GetProductList(info);

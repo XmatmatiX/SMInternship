@@ -51,7 +51,7 @@ namespace SMInternship.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetList")]
+        [HttpPost("GetList")]
         public IActionResult GetList([FromBody]NegotiationSearchInfo info)
         {
             var result = _negotiationService.GetNegotiations(info);
